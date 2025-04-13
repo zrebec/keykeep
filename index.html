@@ -85,7 +85,7 @@
       <p>Generate a password based on your seed and domain.</p>
     </header>
     <main>
-      <form action="./index.html" method="post">
+      <form id="password-form" action="./index.html" method="post">
         <div class="form-container">
           <div class="form-field">
             <input
@@ -129,28 +129,57 @@
             />
           </div>
           <div class="form-field">
-            <button id="generatePassword" onclick="generatePassword()">
-              Get Password
-            </button>
+            <button type="submit">Get Password</button>
           </div>
         </div>
       </form>
     </main>
 
     <script>
-      function generatePassword() {
-        /** Define character set and password length */
-        const charset = "ABCDEFGHIJKLMNOPQRSTUVWX0123456789@._?";
-        const seed = document.getElementById("userSeed").value;
-        const domain = document.getElementById("passwordDomain").value;
-        const login = document.getElementById("userLogin").value;
-        const length = parseInt(
-          document.getElementById("passwordLength").value
-        );
-        console.log("Your Seed: " + seed);
-        console.log("Domain: " + domain);
-        console.log("User Login: " + login);
-        console.log("Paasword length: " + length);
+      document
+        .getElementById("password-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          // Declare the charset based on the selected options
+          const specials = ".,/*-";
+          const lowers = "abcdefghijklmnopqrstuvwx";
+          const uppers = "ABCDEFGHIJKLMNOPQRSTUVWX";
+          const numbers = "0123456789";
+
+          // get the selected options
+          const seed = document.getElementById("userSeed").value;
+          const domain = document.getElementById("passwordDomain").value;
+          const login = document.getElementById("userLogin").value;
+          // prettier-ignore
+          const length = parseInt( document.getElementById("passwordLength").value );
+
+          // generate SHA256 hash
+          // prettier-ignore
+          const hashBytes = await generateSHA256(`${seed}::${domain}::${login}`);
+
+          // pattern for the password
+          const special = specials[hashBytes[0] % specials.length];
+          const upper = uppers[hashBytes[1] % uppers.length];
+          const number = numbers[hashBytes[2] % numbers.length];
+
+          const middles = [];
+          for (let i = 0; i < length - 3; i++) {
+            let byte = hashBytes[3 + i];
+            middles.push(lowers[byte % lowers.length]);
+          }
+
+          const password = special + upper + middles.join("") + number;
+
+          document.getElementById("gettedPassword").value = password;
+        });
+
+      async function generateSHA256(input) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(input);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray;
       }
     </script>
   </body>

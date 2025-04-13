@@ -25,7 +25,8 @@
       href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siPjxwYXRoIGQ9Ik0xMiAyYTUgNSAwIDAgMC01IDV2NEg2YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJ2LTlhMiAyIDAgMCAwLTItMkgxNlY3YTUgNSAwIDAgMC01LTV6bS0zIDVhMyAzIDAgMCAxIDYgMHY0aC02Vjd6bTMgOWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6Ii8+PC9zdmc+"
     />
     <link rel="manifest" href="manifest.json" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="apple-touch-icon.png" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <style>
@@ -38,11 +39,13 @@
       }
       body {
         background-color: #06a;
+        color: white;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         font-size: clamp(1rem, 2.5vw, 1.3rem);
       }
       header {
         background-color: #fff;
+        color: black;
         padding: 20px;
         text-align: center;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -66,10 +69,16 @@
       button {
         width: 100%;
         margin: 5px 0;
-        border: 0px solid #ccc;
-        font-size: 1.1rem;
+        border: 0px;
+        font-size: 1rem;
         padding: 0.75rem 1rem;
         border-radius: 6px;
+        color: black;
+        background-color: white;
+      }
+      label {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
       }
       input {
         padding-right: 2.5rem;
@@ -96,13 +105,15 @@
       input:focus,
       select:focus,
       button:focus {
-        outline: none;
-        border-color: #007bff;
+        outline: 3px solid #ffcc00;
+        outline-offset: 2px;
+        border-color: transparent;
       }
 
       .form-field {
         width: 100%;
         display: flex;
+        flex-direction: column;
         position: relative;
         width: 100%;
       }
@@ -114,6 +125,13 @@
         right: 10px;
         transform: translateY(-50%);
         color: red;
+      }
+
+      .form-field__clipboard {
+        flex-direction: row;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       @media screen and (min-width: 600px) {
@@ -132,23 +150,36 @@
       <form id="password-form" action="./index.html" method="post">
         <div class="form-container">
           <div class="form-field">
-            <input type="text" id="userSeed" placeholder="Enter you seed here" required />
-            <span>*</span>
-          </div>
-          <div class="form-field">
+            <label for="userSeed">Seed</label>
             <input
               type="text"
-              id="passwordDomain"
-              placeholder="Enter domain to which you want to get the password (only last 2 level of domain)"
+              id="userSeed"
+              placeholder="Enter you seed here"
+              aria-label="Seed for password generation"
+              aria-required="true"
               required
             />
             <span>*</span>
           </div>
           <div class="form-field">
+            <label for="passwordDomain">Domain</label>
+            <input
+              type="text"
+              id="passwordDomain"
+              placeholder="Enter domain to which you want to get the password (only last 2 level of domain)"
+              aria-label="Domain for which you want to get the password"
+              aria-required="true"
+              required
+            />
+            <span>*</span>
+          </div>
+          <div class="form-field">
+            <label for="userLogin">Login</label>
             <input type="text" id="userLogin" placeholder="Enter your login for the domain (optional)" />
           </div>
           <div class="form-field">
-            <select id="passwordLength">
+            <label for="passwordLength">Password length</label>
+            <select id="passwordLength" aria-label="Select your password length" required>
               <option value="8">8</option>
               <option value="12" selected>12</option>
               <option value="16">16</option>
@@ -156,14 +187,26 @@
             </select>
           </div>
           <div class="form-field">
-            <input
-              type="text"
-              id="gettedPassword"
-              placeholder="Generated password will be here"
-              readonly
-              style="width: 90%; margin-right: 0.5rem"
-            />
-            <button type="button" id="copyPasswordBtn" title="Copy password to clipboard" style="width: 10%">📋</button>
+            <label for="gettedPassword">Generated password</label>
+            <div class="form-field__clipboard">
+              <input
+                type="text"
+                id="gettedPassword"
+                placeholder="Generated password will be here"
+                readonly
+                style="width: 90%; margin-right: 0.5rem"
+                aria-label="Generated password response"
+              />
+              <button
+                type="button"
+                id="copyPasswordBtn"
+                title="Copy password to clipboard"
+                aria-label="Copy password to clipboard. Press Enter or space to copy."
+                style="width: 10%"
+              >
+                📋
+              </button>
+            </div>
           </div>
           <div class="form-field">
             <button type="submit">Get Password</button>
@@ -177,6 +220,18 @@
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./service-worker.js');
       }
+
+      window.onload = function () {
+        document.getElementById('userSeed').focus();
+      };
+
+      // Add keyboard accessibility for the copy button
+      document.getElementById('copyPasswordBtn').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
 
       document.getElementById('password-form').addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent form submission

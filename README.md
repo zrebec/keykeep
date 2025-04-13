@@ -72,9 +72,9 @@ Each pseudo-word:
 
 - Has 4 letters by default
 - Starts with a capital letter
-- Avoids long consonant chains (max 2 before a vowel)
+- Uses strict consonant-vowel alternation (currently no more than one consonant in a row)
 
-The total number of words and symbols is dynamically calculated from the selected password length, with filler characters trimmed to match the exact length.
+The total number of components is derived from the selected password length. No filler characters are added yet – the output is simply trimmed to match the exact length, if necessary.
 
 ### Example flow
 

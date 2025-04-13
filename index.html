@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seed Password Generator</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="data:image/png;base64,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"
+    />
+    <style>
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #06a;
+        font-family: Arial, sans-serif;
+      }
+      header {
+        background-color: #fff;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-height: 10rem;
+      }
+      .form-container {
+        max-width: 700px;
+        height: calc(100vh - 10rem);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        padding: 0.5rem;
+      }
+      input,
+      select,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      input:focus,
+      select:focus,
+      button:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+
+      .form-field {
+        width: 100%;
+        display: flex;
+        position: relative;
+        width: 100%;
+      }
+
+      .form-field span {
+        position: absolute;
+        font-size: 2rem;
+        top: 65%;
+        right: 10px;
+        transform: translateY(-50%);
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Seed Password Generator</h1>
+      <p>Generate a password based on your seed and domain.</p>
+    </header>
+    <main>
+      <form action="./index.html" method="post">
+        <div class="form-container">
+          <div class="form-field">
+            <input
+              type="text"
+              id="userSeed"
+              placeholder="Enter you seed here"
+              required
+            />
+            <span>*</span>
+          </div>
+          <div class="form-field">
+            <input
+              type="text"
+              id="passwordDomain"
+              placeholder="Enter domain to which you want to get the password (only last 2 level of domain)"
+              required
+            />
+            <span>*</span>
+          </div>
+          <div class="form-field">
+            <input
+              type="text"
+              id="userLogin"
+              placeholder="Enter your login for the domain (optional)"
+            />
+          </div>
+          <div class="form-field">
+            <select id="passwordLength">
+              <option value="8">8</option>
+              <option value="12">12</option>
+              <option value="16">16</option>
+              <option value="24">24</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <input
+              type="text"
+              id="gettedPassword"
+              placeholder="Generated password will be here"
+              readonly
+            />
+          </div>
+          <div class="form-field">
+            <button id="generatePassword" onclick="generatePassword()">
+              Get Password
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      function generatePassword() {
+        /** Define character set and password length */
+        const charset = "ABCDEFGHIJKLMNOPQRSTUVWX0123456789@._?";
+        const seed = document.getElementById("userSeed").value;
+        const domain = document.getElementById("passwordDomain").value;
+        const login = document.getElementById("userLogin").value;
+        const length = parseInt(
+          document.getElementById("passwordLength").value
+        );
+        console.log("Your Seed: " + seed);
+        console.log("Domain: " + domain);
+        console.log("User Login: " + login);
+        console.log("Paasword length: " + length);
+      }
+    </script>
+  </body>
+</html>

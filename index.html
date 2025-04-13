@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>KeyKeep</title>
     <meta name="description" content="Deterministic pseudo-randon memorable word password generator" />
     <meta name="keywords" content="password, generator, seed, domain, login" />
@@ -25,6 +25,10 @@
       href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siPjxwYXRoIGQ9Ik0xMiAyYTUgNSAwIDAgMC01IDV2NEg2YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJ2LTlhMiAyIDAgMCAwLTItMkgxNlY3YTUgNSAwIDAgMC01LTV6bS0zIDVhMyAzIDAgMCAxIDYgMHY0aC02Vjd6bTMgOWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6Ii8+PC9zdmc+"
     />
     <link rel="manifest" href="manifest.json" />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siPjxwYXRoIGQ9Ik0xMiAyYTUgNSAwIDAgMC01IDV2NEg2YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJ2LTlhMiAyIDAgMCAwLTItMkgxNlY3YTUgNSAwIDAgMC01LTV6bS0zIDVhMyAzIDAgMCAxIDYgMHY0aC02Vjd6bTMgOWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6Ii8+PC9zdmc+=="
+    />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <style>
@@ -38,6 +42,7 @@
       body {
         background-color: #06a;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
       }
       header {
         background-color: #fff;
@@ -55,7 +60,6 @@
         height: calc(100vh - 10rem);
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         margin: 0 auto;
         padding: 0.5rem;
@@ -64,12 +68,27 @@
       select,
       button {
         width: 100%;
-        padding: 10px;
         margin: 5px 0;
-        border-radius: 5px;
         border: 0px solid #ccc;
+        font-size: 1.1rem;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+      }
+      input {
+        padding-right: 2.5rem;
+      }
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: white;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 2.5rem;
       }
       button {
+        min-width: 48px;
+        min-height: 48px;
         background-color: #007bff;
         color: white;
         cursor: pointer;
@@ -98,6 +117,12 @@
         right: 10px;
         transform: translateY(-50%);
         color: red;
+      }
+
+      @media screen and (min-width: 600px) {
+        .form-container {
+          justify-content: center;
+        }
       }
     </style>
   </head>

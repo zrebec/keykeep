@@ -3,11 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Seed Password Generator</title>
+    <title>KeyKeep</title>
+    <meta name="description" content="Deterministic pseudo-randon memorable word password generator" />
+    <meta name="keywords" content="password, generator, seed, domain, login" />
+    <meta name="author" content="FriskyFox" />
+    <meta name="theme-color" content="#06a" />
+    <meta property="og:title" content="KeyKeep - Deterministic Pseudo memorable password generator" />
+    <meta
+      property="og:description"
+      content="Generate secure, repeatable, and memorable passwords using just your seed and domain."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siPjxwYXRoIGQ9Ik0xMiAyYTUgNSAwIDAgMC01IDV2NEg2YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJ2LTlhMiAyIDAgMCAwLTItMkgxNlY3YTUgNSAwIDAgMC01LTV6bS0zIDVhMyAzIDAgMCAxIDYgMHY0aC02Vjd6bTMgOWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6Ii8+PC9zdmc+"
+    />
+    <meta property="og:url" content="https://yourdomain.tld" />
     <link
       rel="icon"
-      type="image/x-icon"
-      href="data:image/png;base64,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"
+      type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siPjxwYXRoIGQ9Ik0xMiAyYTUgNSAwIDAgMC01IDV2NEg2YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJ2LTlhMiAyIDAgMCAwLTItMkgxNlY3YTUgNSAwIDAgMC01LTV6bS0zIDVhMyAzIDAgMCAxIDYgMHY0aC02Vjd6bTMgOWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6Ii8+PC9zdmc+"
     />
     <style>
       *,
@@ -28,6 +43,10 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         max-height: 10rem;
       }
+      header h1 {
+        font-size: 2rem;
+        text-transform: uppercase;
+      }
       .form-container {
         max-width: 700px;
         height: calc(100vh - 10rem);
@@ -45,7 +64,7 @@
         padding: 10px;
         margin: 5px 0;
         border-radius: 5px;
-        border: 1px solid #ccc;
+        border: 0px solid #ccc;
       }
       button {
         background-color: #007bff;
@@ -81,8 +100,8 @@
   </head>
   <body>
     <header>
-      <h1>Seed Password Generator</h1>
-      <p>Generate a password based on your seed and domain.</p>
+      <h1>KeyKeep</h1>
+      <p>Deterministic pseudo-randon memorable word password generator</p>
     </header>
     <main>
       <form id="password-form" action="./index.html" method="post">
@@ -112,7 +131,14 @@
             </select>
           </div>
           <div class="form-field">
-            <input type="text" id="gettedPassword" placeholder="Generated password will be here" readonly />
+            <input
+              type="text"
+              id="gettedPassword"
+              placeholder="Generated password will be here"
+              readonly
+              style="width: 90%; margin-right: 0.5rem"
+            />
+            <button type="button" id="copyPasswordBtn" title="Copy password to clipboard" style="width: 10%">📋</button>
           </div>
           <div class="form-field">
             <button type="submit">Get Password</button>
@@ -163,6 +189,21 @@
         const password = passwordParts.join('').slice(0, length);
 
         document.getElementById('gettedPassword').value = password;
+      });
+
+      document.getElementById('copyPasswordBtn').addEventListener('click', function () {
+        const passwordField = document.getElementById('gettedPassword');
+        if (!passwordField.value) return;
+
+        navigator.clipboard
+          .writeText(passwordField.value)
+          .then(() => {
+            this.textContent = '✅'; // feedback
+            setTimeout(() => (this.textContent = '📋'), 1500);
+          })
+          .catch((err) => {
+            console.error('Copy failed:', err);
+          });
       });
 
       async function generateSHA256(input) {

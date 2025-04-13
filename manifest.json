@@ -1,0 +1,15 @@
+{
+  "name": "KeyKeep",
+  "short_name": "KeyKeep",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06a",
+  "theme_color": "#06a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iYmxhY2siPjxwYXRoIGQ9Ik0xMiAyYTUgNSAwIDAgMC01IDV2NEg2YTIgMiAwIDAgMC0yIDJ2OWEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJ2LTlhMiAyIDAgMCAwLTItMkgxNlY3YTUgNSAwIDAgMC01LTV6bS0zIDVhMyAzIDAgMCAxIDYgMHY0aC02Vjd6bTMgOWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6Ii8+PC9zdmc+==",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

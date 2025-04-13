@@ -98,7 +98,7 @@ Where:
 2. Under **Source**, choose `main` branch and `/root` folder
 3. Hit **Save** and wait a few seconds
 4. Your site will be published at:
-   `https://zrebec.github.io/keykeep/`
+   `https://yourusername.github.io/keykeep/`
 
 ---
 

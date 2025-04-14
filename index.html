@@ -147,7 +147,7 @@
       <p>Deterministic pseudo-randon memorable word password generator</p>
     </header>
     <main>
-      <form id="password-form" action="./index.html" method="post">
+      <form id="password-form" action="javasrcipt:void(0)" method="post">
         <div class="form-container">
           <div class="form-field">
             <label for="userSeed">Seed</label>
@@ -217,9 +217,11 @@
 
     <script>
       // Register service worker for offline support
+      /*
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./service-worker.js');
       }
+      */
 
       window.onload = function () {
         document.getElementById('userSeed').focus();
@@ -247,31 +249,40 @@
         const hashBytes = await generateSHA256(`${seed}::${domain}::${login}`);
 
         // Declare the charset based on the selected options
-        const wordCount = Math.floor((length - 2) / 5); // every word has around 5 characters
         const specials = '.,/*-';
         const numbers = '0123456789';
 
         // pattern for the password
         let passwordParts = [];
+        let currentLength = 0;
         let hashIndex = 3;
 
-        for (let i = 0; i < wordCount; i++) {
-          const word = generateWord(hashBytes, hashIndex, 4); // eg. 4 characters
-          passwordParts.push(word);
-          hashIndex += 4;
+        while (currentLength < length - 2) {
+          // 3 - 5 characters long word
+          const dynamicLength = 3 + (hashBytes[hashIndex] % 3); // 3–5 znakov
+          const word = generateWord(hashBytes, hashIndex, dynamicLength);
 
-          if (i < wordCount - 1) {
+          // add a word to the password even if we have to exceed the required password length (more rather than less)
+          passwordParts.push(word);
+          currentLength += word.length;
+          hashIndex += dynamicLength;
+
+          // Always add a special character if the password hasn't been significantly exceeded yet
+          // We don't test exactly at the boundary - we don't mind exceeding the length
+          if (hashIndex < hashBytes.length) {
             const special = specials[hashBytes[hashIndex++] % specials.length];
             passwordParts.push(special);
+            currentLength += 1;
           }
         }
+
+        let password = passwordParts.join('').slice(0, length - 2);
 
         // Add numbers to the end of the password
         const number1 = numbers[hashBytes[1] % numbers.length];
         const number2 = numbers[hashBytes[2] % numbers.length];
-        passwordParts.push(number1 + number2);
-
-        const password = passwordParts.join('').slice(0, length);
+        password += `${number1}${number2}`;
+        currentLength += 2;
 
         document.getElementById('gettedPassword').value = password;
       });

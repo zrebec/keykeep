@@ -105,9 +105,14 @@ Where:
 ## 💡 Future ideas
 
 - [ ] Light/dark mode
-- [ ] Option to export as offline ZIP
+- [ ] Theming: Technocratic / Happy Corals / Standard
 - [ ] Password strength indicator
-- [ ] PWA installable mode
+- [ ] Algorithm versioning (v1, v2...) for compatibility with older passwords
+- [ ] Optional keyboard shortcuts (e.g. Alt+S to focus seed)
+- [ ] Lock file export for settings/usage context
+- [ ] Plugin system for custom word generators (e.g. phonetic)
+- [ ] Offline ZIP export (if multiple files)
+- [x] PWA installable mode
 
 ---
 

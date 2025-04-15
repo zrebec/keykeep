@@ -246,7 +246,15 @@
         const length = parseInt( document.getElementById("passwordLength").value );
 
         // generate SHA256 hash
-        const hashBytes = await generateSHA256(`${seed}::${domain}::${login}`);
+        //const hashBytes = await generateSHA256(`${seed}::${domain}::${login}`);
+        const salt = '1111';
+
+        // derive the key using PBKDF2
+        const key = await deriveKeyPBKDF2(`${seed}`, `${domain}::${login}`, 10000000);
+        const keyBytes = await exportKey(key);
+
+        // Convert the key to a byte array
+        const hashBytes = new Uint8Array(keyBytes.buffer); // Convert ArrayBuffer to Uint8Array
 
         // Declare the charset based on the selected options
         const specials = '.,/*-';
@@ -327,6 +335,36 @@
         }
 
         return word.charAt(0).toUpperCase() + word.slice(1); // začína veľkým písmenom
+      }
+
+      // better deriveKey function using PBKDF2
+      async function deriveKeyPBKDF2(password, salt, iterations = 100000, keyLength = 256) {
+        const enc = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, [
+          'deriveBits',
+          'deriveKey',
+        ]);
+        const key = await crypto.subtle.deriveKey(
+          {
+            name: 'PBKDF2',
+            salt: enc.encode(salt),
+            iterations: iterations,
+            hash: 'SHA-256',
+          },
+          keyMaterial,
+          { name: 'AES-GCM', length: keyLength },
+          true,
+          ['encrypt', 'decrypt'],
+        );
+        return key;
+      }
+
+      async function exportKey(key) {
+        // Exportuje kľúč vo formáte "raw" (ArrayBuffer)
+        const rawKey = await crypto.subtle.exportKey('raw', key);
+        // Prekonvertujeme ArrayBuffer na Uint8Array pre jednoduchšie spracovanie
+        const keyBytes = new Uint8Array(rawKey);
+        return keyBytes;
       }
     </script>
   </body>

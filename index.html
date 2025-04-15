@@ -74,7 +74,6 @@
         padding: 0.75rem 1rem;
         border-radius: 6px;
         color: black;
-        background-color: white;
       }
       label {
         font-size: 1.2rem;
@@ -86,7 +85,6 @@
       select {
         appearance: none;
         -webkit-appearance: none;
-        background-color: white;
         background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
         background-repeat: no-repeat;
         background-position: right 1rem center;
@@ -157,7 +155,6 @@
               placeholder="Enter you seed here"
               aria-label="Seed for password generation"
               aria-required="true"
-              required
             />
             <span>*</span>
           </div>
@@ -227,6 +224,10 @@
         document.getElementById('userSeed').focus();
       };
 
+      async function yieldToUI() {
+        return new Promise((resolve) => setTimeout(resolve, 0));
+      }
+
       // Add keyboard accessibility for the copy button
       document.getElementById('copyPasswordBtn').addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -247,10 +248,17 @@
 
         // generate SHA256 hash
         //const hashBytes = await generateSHA256(`${seed}::${domain}::${login}`);
-        const salt = '1111';
 
         // derive the key using PBKDF2
-        const key = await deriveKeyPBKDF2(`${seed}`, `${domain}::${login}`, 10000000);
+        toggleForm(true);
+        console.log('Deriving key...');
+
+        await yieldToUI(); // Yield to the UI to allow the form to update
+
+        const key = await deriveKeyPBKDF2(`${seed}`, `${domain}::${login}`, 10000000, 256);
+        console.log('Key derivated...');
+        toggleForm(false);
+        document.getElementById('userSeed').disabled = false;
         const keyBytes = await exportKey(key);
 
         // Convert the key to a byte array
@@ -365,6 +373,13 @@
         // Prekonvertujeme ArrayBuffer na Uint8Array pre jednoduchšie spracovanie
         const keyBytes = new Uint8Array(rawKey);
         return keyBytes;
+      }
+
+      function toggleForm(disabled = true) {
+        const formElements = document.querySelectorAll('#password-form input, #password-form select, #password-form button');
+        formElements.forEach((el) => {
+          el.disabled = disabled;
+        });
       }
     </script>
   </body>

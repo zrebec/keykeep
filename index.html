@@ -159,6 +159,13 @@
             <span>*</span>
           </div>
           <div class="form-field">
+            <label for="passworditeration">Password length</label>
+            <select id="passworditeration" aria-label="Select your password iteration" required>
+              <option value="1">v1.0</option>
+              <option value="2" selected>v2.0</option>
+            </select>
+          </div>
+          <div class="form-field">
             <label for="passwordDomain">Domain</label>
             <input
               type="text"
@@ -244,6 +251,8 @@
         const domain = document.getElementById('passwordDomain').value;
         const login = document.getElementById('userLogin').value;
         // prettier-ignore
+        const iteration = parseInt( document.getElementById('passworditeration').value );
+        // prettier-ignore
         const length = parseInt( document.getElementById("passwordLength").value );
 
         // generate SHA256 hash
@@ -255,7 +264,12 @@
 
         await yieldToUI(); // Yield to the UI to allow the form to update
 
-        const key = await deriveKeyPBKDF2(`${seed}`, `${domain}::${login}`, 10000000, 256);
+        const salt = `${domain}::${login}::${iteration}`;
+
+        if (iteration == 1)
+          salt = `${domain}::${login}`;
+        else
+        const key = await deriveKeyPBKDF2(seed, salt, 10000000, 256);
         console.log('Key derivated...');
         toggleForm(false);
         document.getElementById('userSeed').disabled = false;

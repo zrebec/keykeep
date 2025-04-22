@@ -32,12 +32,13 @@
     <p>Deterministic pseudo-random memorable word password generator</p>
   </header>
   <main>
-    <form id="password-form" action="javascript:void(0)" method="post">
+    <form id="password-form" action="javascript:void(0)" method="post" autocomplete="off"
+      aria-label="Password generation form">
       <div class="form-container">
         <div class="form-field">
           <label for="userSeed">Seed</label>
-          <input type="text" id="userSeed" placeholder="Enter your seed here" aria-label="Seed for password generation"
-            aria-required="true" />
+          <input type="text" id="userSeed" placeholder="Enter your seed here" autocomplete="new-password"
+            aria-label="Seed for password generation" aria-required="true" />
           <span>*</span>
         </div>
         <div class="form-field">
@@ -50,12 +51,19 @@
         <div class="form-field">
           <label for="passwordDomain">Domain</label>
           <input type="text" id="passwordDomain" placeholder="Enter domain (only last 2 levels)"
-            aria-label="Domain for which you want to get the password" aria-required="true" required />
+            autocomplete="new-password" aria-label="Domain for which you want to get the password" aria-required="true"
+            required />
           <span>*</span>
         </div>
         <div class="form-field">
           <label for="userLogin">Login</label>
-          <input type="text" id="userLogin" placeholder="Enter your login (optional)" />
+          <div class="form-field__clipboard">
+            <input type="text" id="userLogin" placeholder="Enter your login (optional)"
+              aria-label="User login input filed (is optional)" />
+            <button type="button" id="copyUserLoginBtn" title="Copy login to clipboard"
+              aria-label="Copy login to clipboard">📋
+            </button>
+          </div>
         </div>
         <div class="form-field">
           <label for="passwordLength">Password length</label>
@@ -69,7 +77,8 @@
         <div class="form-field">
           <label for="gettedPassword">Generated password</label>
           <div class="form-field__clipboard">
-            <input type="text" id="gettedPassword" placeholder="Generated password will be here" readonly
+            <input type="password" id="gettedPassword" placeholder="Generated password will be here" readonly
+              autocomplete="off" onpaste="return false" oncopy="return false"
               aria-label="Generated password response" />
             <button type="button" id="copyPasswordBtn" title="Copy password to clipboard"
               aria-label="Copy password to clipboard">

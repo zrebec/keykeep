@@ -13,8 +13,16 @@ async function yieldToUI() {
     return new Promise((resolve) => setTimeout(resolve, 0));
 }
 
-// Add keyboard accessibility for the copy button
+// Add keyboard accessibility for the password copy button
 document.getElementById('copyPasswordBtn').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+    }
+});
+
+// Add keyboard accessibility for the user login copy button
+document.getElementById('copyUserLoginBtn').addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         this.click();
@@ -94,14 +102,32 @@ document.getElementById('password-form').addEventListener('submit', async functi
     currentLength += 2;
 
     document.getElementById('gettedPassword').value = password;
+    document.getElementById('copyPasswordBtn').focus();
 });
 
+// Add copy password button functionality
 document.getElementById('copyPasswordBtn').addEventListener('click', function () {
     const passwordField = document.getElementById('gettedPassword');
     if (!passwordField.value) return;
 
     navigator.clipboard
         .writeText(passwordField.value)
+        .then(() => {
+            this.textContent = '✅'; // feedback
+            setTimeout(() => (this.textContent = '📋'), 1500);
+        })
+        .catch((err) => {
+            console.error('Copy failed:', err);
+        });
+});
+
+// Add copy userLogin button functionality
+document.getElementById('copyUserLoginBtn').addEventListener('click', function () {
+    const loginField = document.getElementById('userLogin');
+    if (!loginField.value) return;
+
+    navigator.clipboard
+        .writeText(loginField.value)
         .then(() => {
             this.textContent = '✅'; // feedback
             setTimeout(() => (this.textContent = '📋'), 1500);

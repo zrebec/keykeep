@@ -32,6 +32,11 @@ document.getElementById('copyUserLoginBtn').addEventListener('keydown', function
     }
 });
 
+document.getElementById('clearFormBtn').addEventListener('click', () => {
+    document.getElementById('password-form').reset();
+    document.getElementById('gettedPassword').value = '';
+});
+
 document.getElementById('password-form').addEventListener('submit', async function (event) {
     event.preventDefault(); // Prevent form submission
 

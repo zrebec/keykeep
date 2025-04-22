@@ -148,7 +148,7 @@ button[type="submit"]:not(:disabled):hover {
     position: relative;
 }
 
-.form-field__buttons {
+.form-actions {
     width: 100%;
     display: flex;
     flex-direction: row;

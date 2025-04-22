@@ -42,10 +42,10 @@ document.getElementById('password-form').addEventListener('submit', async functi
 
     await yieldToUI(); // Yield to the UI to allow the form to update
 
-    let salt = `${domain}::${login}::${variation}`;
+    let salt = `${domain.toLowerCase()}::${login.toLowerCase()}`;
 
-    if (variation == 1) {
-        salt = `${domain}::${login}`;
+    if (variation == 2) {
+        salt += `::${variation}`;
     }
 
     const key = await deriveKeyPBKDF2(seed, salt, 10000000, 256);

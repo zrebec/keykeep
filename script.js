@@ -5,6 +5,9 @@ if ('serviceWorker' in navigator) {
 }
 */
 
+const passwordInput = document.getElementById('gettedPassword');
+const toggleBtn = document.getElementById('togglePasswordBtn');
+
 window.onload = function () {
     document.getElementById('userSeed').focus();
 };
@@ -103,6 +106,23 @@ document.getElementById('password-form').addEventListener('submit', async functi
 
     document.getElementById('gettedPassword').value = password;
     document.getElementById('copyPasswordBtn').focus();
+});
+
+
+
+// Toggle password visibility
+toggleBtn.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    toggleBtn.style.backgroundColor = 'green';
+    if (isPassword) {
+        setTimeout(() => {
+            passwordInput.type = 'password';
+            toggleBtn.textContent = '👁️';
+            toggleBtn.style.backgroundColor = 'grey';
+            toggleBtn.setAttribute('aria-label', 'Show password');
+        }, 2500);
+    }
 });
 
 // Add copy password button functionality

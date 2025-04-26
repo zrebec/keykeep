@@ -121,16 +121,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Toggle password visibility
     togglePasswordBtn.addEventListener('click', () => {
-        const isPassword = passwordOutputEl.type === 'password';
-        passwordOutputEl.type = isPassword ? 'text' : 'password';
-        togglePasswordBtn.style.backgroundColor = 'green';
-        if (isPassword) {
+        const isHidden = passwordOutputEl.type === 'password';
+        if (isHidden) {
+            // Zobraziť heslo
+            passwordOutputEl.type = 'text';
+            togglePasswordBtn.style.backgroundColor = 'green';
+            togglePasswordBtn.setAttribute('aria-label', 'Hide password');
+            // Automatické skrytie po 2.5s
             setTimeout(() => {
                 passwordOutputEl.type = 'password';
                 togglePasswordBtn.textContent = '👁️';
                 togglePasswordBtn.style.backgroundColor = 'grey';
                 togglePasswordBtn.setAttribute('aria-label', 'Show password');
             }, 2500);
+        } else {
+            // Okamžite skryť heslo (pred uplynutím timeoutu)
+            passwordOutputEl.type = 'password';
+            togglePasswordBtn.textContent = '👁️';
+            togglePasswordBtn.style.backgroundColor = 'grey';
+            togglePasswordBtn.setAttribute('aria-label', 'Show password');
         }
     });
 

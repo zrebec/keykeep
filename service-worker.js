@@ -1,6 +1,6 @@
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open('keykeep-v1').then((cache) => {
+    caches.open('keykeep-v2.0').then((cache) => {
       return cache.addAll(['index.html']);
     }),
   );

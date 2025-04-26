@@ -1,9 +1,18 @@
 // Register service worker for offline support
-/*
+
+const debug = true; // Set to true for debugging
+
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js');
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => { if (debug) console.log('ServiceWorker registered') })
+            .catch(err => { if (debug) console.error('ServiceWorker registration failed:', err) });
+    });
 }
-*/
+
+// Vysvetlenie:
+// Rozdelenie konstant pre chars alebo okomentovanie, pripadne "rozbitie funckie" pre generovanie heslo na viac blokov
+// Web workeer vlakno - Bolo mi doporucene, ze je to lepsie riesenie pre generovanie hesla, ale neviem ako to spravit
 
 document.addEventListener('DOMContentLoaded', function () {
     const passwordForm = document.getElementById('password-form');
@@ -58,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // derive the key using PBKDF2
         toggleForm(true);
-        console.log('Deriving key...');
+        if (debug) console.log('Deriving key...');
 
         await yieldToUI(); // Yield to the UI to allow the form to update
 
@@ -74,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const key = await deriveKeyPBKDF2(seed, salt, 10_000_000, 256);
-        console.log('Key derivated...');
+        if (debug) console.log('Key derived...');
         toggleForm(false);
         const keyBytes = await exportKey(key);
 

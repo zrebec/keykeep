@@ -57,13 +57,15 @@
           <label for="domain-input">Domain</label>
           <input type="text" id="domain-input" placeholder="Enter domain (only last 2 levels)"
             autocomplete="new-password" aria-label="Domain for which you want to get the password" aria-required="true"
-            required />
+            pattern="[A-Za-z0-9.\-]+" title="Domain can only contain letters, numbers, dot and hyphen." required />
           <span>*</span>
         </div>
         <div class="form-field">
           <label for="username-input">Login</label>
           <div class="form-field__clipboard">
             <input type="text" id="username-input" placeholder="Enter your login (optional)"
+              pattern="[A-Za-z0-9.@_\-\&\*]+"
+              title="Login can only contain letters, numbers, dot, hyphen, underscore, ampersand and star."
               aria-label="User login input filed (is optional)" />
             <button type="button" id="copy-username" title="Copy login to clipboard"
               aria-label="Copy login to clipboard">📋

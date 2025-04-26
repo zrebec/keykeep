@@ -148,6 +148,13 @@ button[type="submit"]:not(:disabled):hover {
     position: relative;
 }
 
+.form-field input:disabled,
+.form-field select:disabled,
+.form-field button:disabled {
+    background-color: yellow;
+    color: #9ca3af;
+}
+
 .form-actions {
     width: 100%;
     display: flex;

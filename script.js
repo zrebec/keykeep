@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const passwordVariationEl = document.getElementById('variation-select');
     const passwordLengthEl = document.getElementById("length-select");
 
-    const generatedPasswordInput = document.getElementById('password-output');
+    const passwordOutputEl = document.getElementById('password-output');
 
     const togglePasswordBtn = document.getElementById('toggle-password');
     const copyPasswordBtn = document.getElementById('copy-password');
-    const copyUserLoginBtn = document.getElementById('copy-username');
+    const copyUsernameBtn = document.getElementById('copy-username');
     const clearFormBtn = document.getElementById('clear-form');
 
     window.onload = function () {
@@ -29,21 +29,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return new Promise((resolve) => setTimeout(resolve, 0));
     }
 
-    // Add keyboard accessibility for the password copy button
-    copyPasswordBtn.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.click();
-        }
-    });
-
-    // Add keyboard accessibility for the user login copy button
-    copyUserLoginBtn.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.click();
-        }
-    });
+    function copyToClipboard(inputEl, btnEl) {
+        if (!inputEl.value) return;
+        navigator.clipboard.writeText(inputEl.value)
+            .then(() => {
+                btnEl.textContent = '✅';
+                setTimeout(() => btnEl.textContent = '📋', 1500);
+            })
+            .catch(err => console.error('Copy failed:', err));
+    }
 
     clearFormBtn.addEventListener('click', () => passwordForm.reset());
 
@@ -79,10 +73,9 @@ document.addEventListener('DOMContentLoaded', function () {
             salt += `::${variation}`;
         }
 
-        const key = await deriveKeyPBKDF2(seed, salt, 10000000, 256);
+        const key = await deriveKeyPBKDF2(seed, salt, 10_000_000, 256);
         console.log('Key derivated...');
         toggleForm(false);
-        seedInputEl.disabled = false;
         const keyBytes = await exportKey(key);
 
         // Convert the key to a byte array
@@ -120,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         password += `${number1}${number2}`;
         currentLength += 2;
 
-        generatedPasswordInput.value = password;
+        passwordOutputEl.value = password;
         copyPasswordBtn.focus();
     });
 
@@ -128,12 +121,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Toggle password visibility
     togglePasswordBtn.addEventListener('click', () => {
-        const isPassword = generatedPasswordInput.type === 'password';
-        generatedPasswordInput.type = isPassword ? 'text' : 'password';
+        const isPassword = passwordOutputEl.type === 'password';
+        passwordOutputEl.type = isPassword ? 'text' : 'password';
         togglePasswordBtn.style.backgroundColor = 'green';
         if (isPassword) {
             setTimeout(() => {
-                generatedPasswordInput.type = 'password';
+                passwordOutputEl.type = 'password';
                 togglePasswordBtn.textContent = '👁️';
                 togglePasswordBtn.style.backgroundColor = 'grey';
                 togglePasswordBtn.setAttribute('aria-label', 'Show password');
@@ -143,32 +136,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add copy password button functionality
     copyPasswordBtn.addEventListener('click', function () {
-        if (!generatedPasswordInput.value) return;
-
-        navigator.clipboard
-            .writeText(generatedPasswordInput.value)
-            .then(() => {
-                this.textContent = '✅'; // feedback
-                setTimeout(() => (this.textContent = '📋'), 1500);
-            })
-            .catch((err) => {
-                console.error('Copy failed:', err);
-            });
+        copyToClipboard(passwordOutputEl, copyPasswordBtn);
     });
 
     // Add copy userLogin button functionality
-    copyUserLoginBtn.addEventListener('click', function () {
-        if (!usernameEl.value) return;
-
-        navigator.clipboard
-            .writeText(usernameEl.value)
-            .then(() => {
-                this.textContent = '✅'; // feedback
-                setTimeout(() => (this.textContent = '📋'), 1500);
-            })
-            .catch((err) => {
-                console.error('Copy failed:', err);
-            });
+    copyUsernameBtn.addEventListener('click', function () {
+        copyToClipboard(usernameEl, copyUsernameBtn);
     });
 
     async function generateSHA256(input) {
@@ -199,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // better deriveKey function using PBKDF2
-    async function deriveKeyPBKDF2(password, salt, iterations = 100000, keyLength = 256) {
+    async function deriveKeyPBKDF2(password, salt, iterations = 500000, keyLength = 256) {
         const enc = new TextEncoder();
         const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, [
             'deriveBits',

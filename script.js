@@ -8,18 +8,21 @@ if ('serviceWorker' in navigator) {
 document.addEventListener('DOMContentLoaded', function () {
     const passwordForm = document.getElementById('password-form');
 
-    const userSeedInput = document.getElementById('userSeed');
-    const userLoginInput = document.getElementById('userLogin');
-    const passwordDomainInput = document.getElementById('passwordDomain');
-    const generatedPasswordInput = document.getElementById('generatedPassword');
+    const seedInputEl = document.getElementById('seed-input');
+    const domainInputEl = document.getElementById('domain-input');
+    const usernameEl = document.getElementById('username-input');
+    const passwordVariationEl = document.getElementById('variation-select');
+    const passwordLengthEl = document.getElementById("length-select");
 
-    const toggleBtn = document.getElementById('togglePasswordBtn');
-    const copyPasswordBtn = document.getElementById('copyPasswordBtn');
-    const copyUserLoginBtn = document.getElementById('copyUserLoginBtn');
-    const clearFormBtn = document.getElementById('clearFormBtn');
+    const generatedPasswordInput = document.getElementById('password-output');
+
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const copyPasswordBtn = document.getElementById('copy-password');
+    const copyUserLoginBtn = document.getElementById('copy-username');
+    const clearFormBtn = document.getElementById('clear-form');
 
     window.onload = function () {
-        userSeedInput.focus();
+        seedInputEl.focus();
     };
 
     async function yieldToUI() {
@@ -42,22 +45,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    clearFormBtn.addEventListener('click', () => {
-        passwordForm.reset();
-        generatedPasswordInput.value = '';
-    });
+    clearFormBtn.addEventListener('click', () => passwordForm.reset());
 
     passwordForm.addEventListener('submit', async function (event) {
         event.preventDefault(); // Prevent form submission
 
         // get the selected options
-        const seed = userSeed.value;
-        const domain = passwordDomainInput.value;
-        const login = userLoginInput.value;
+        const seed = seedInputEl.value;
+        const domain = domainInputEl.value;
+        const login = usernameEl.value;
         // prettier-ignore
-        const variation = parseInt(document.getElementById('passwordVariation').value);
+        const variation = parseInt(passwordVariationEl.value);
         // prettier-ignore
-        const length = parseInt(document.getElementById("passwordLength").value);
+        const length = parseInt(passwordLengthEl.value);
 
         // generate SHA256 hash
         //const hashBytes = await generateSHA256(`${seed}::${domain}::${login}`);
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const key = await deriveKeyPBKDF2(seed, salt, 10000000, 256);
         console.log('Key derivated...');
         toggleForm(false);
-        userSeedInput.disabled = false;
+        seedInputEl.disabled = false;
         const keyBytes = await exportKey(key);
 
         // Convert the key to a byte array
@@ -127,16 +127,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Toggle password visibility
-    toggleBtn.addEventListener('click', () => {
+    togglePasswordBtn.addEventListener('click', () => {
         const isPassword = generatedPasswordInput.type === 'password';
         generatedPasswordInput.type = isPassword ? 'text' : 'password';
-        toggleBtn.style.backgroundColor = 'green';
+        togglePasswordBtn.style.backgroundColor = 'green';
         if (isPassword) {
             setTimeout(() => {
                 generatedPasswordInput.type = 'password';
-                toggleBtn.textContent = '👁️';
-                toggleBtn.style.backgroundColor = 'grey';
-                toggleBtn.setAttribute('aria-label', 'Show password');
+                togglePasswordBtn.textContent = '👁️';
+                togglePasswordBtn.style.backgroundColor = 'grey';
+                togglePasswordBtn.setAttribute('aria-label', 'Show password');
             }, 2500);
         }
     });
@@ -158,10 +158,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add copy userLogin button functionality
     copyUserLoginBtn.addEventListener('click', function () {
-        if (!userLoginInput.value) return;
+        if (!usernameEl.value) return;
 
         navigator.clipboard
-            .writeText(userLoginInput.value)
+            .writeText(usernameEl.value)
             .then(() => {
                 this.textContent = '✅'; // feedback
                 setTimeout(() => (this.textContent = '📋'), 1500);

@@ -39,14 +39,14 @@
       aria-label="Password generation form">
       <div class="form-container">
         <div class="form-field">
-          <label for="userSeed">Seed</label>
-          <input type="text" id="userSeed" placeholder="Enter your seed here" required autocomplete="new-password"
+          <label for="seed-input">Seed</label>
+          <input type="text" id="seed-input" placeholder="Enter your seed here" required autocomplete="new-password"
             aria-label="Seed for password generation" aria-required="true" />
           <span>*</span>
         </div>
         <div class="form-field">
-          <label for="passwordVariation">Password variation</label>
-          <select id="passwordVariation" aria-label="Select your password variation" required>
+          <label for="variation-select">Password variation</label>
+          <select id="variation-select" aria-label="Select your password variation" required>
             <option value="0">Compatibily (use reduced specials to . or ,)</option>
             <option value="1" selected>Standard</option>
             <option value="3">Changed password (variation 1)</option>
@@ -54,25 +54,25 @@
           </select>
         </div>
         <div class="form-field">
-          <label for="passwordDomain">Domain</label>
-          <input type="text" id="passwordDomain" placeholder="Enter domain (only last 2 levels)"
+          <label for="domain-input">Domain</label>
+          <input type="text" id="domain-input" placeholder="Enter domain (only last 2 levels)"
             autocomplete="new-password" aria-label="Domain for which you want to get the password" aria-required="true"
             required />
           <span>*</span>
         </div>
         <div class="form-field">
-          <label for="userLogin">Login</label>
+          <label for="username-input">Login</label>
           <div class="form-field__clipboard">
-            <input type="text" id="userLogin" placeholder="Enter your login (optional)"
+            <input type="text" id="username-input" placeholder="Enter your login (optional)"
               aria-label="User login input filed (is optional)" />
-            <button type="button" id="copyUserLoginBtn" title="Copy login to clipboard"
+            <button type="button" id="copy-username" title="Copy login to clipboard"
               aria-label="Copy login to clipboard">📋
             </button>
           </div>
         </div>
         <div class="form-field">
-          <label for="passwordLength">Password length</label>
-          <select id="passwordLength" aria-label="Select your password length" required>
+          <label for="length-select">Password length</label>
+          <select id="length-select" aria-label="Select your password length" required>
             <option value="8">8</option>
             <option value="12" selected>12</option>
             <option value="16">16</option>
@@ -80,14 +80,14 @@
           </select>
         </div>
         <div class="form-field">
-          <label for="generatedPassword">Generated password</label>
+          <label for="password-output">Generated password</label>
           <div class="form-field__clipboard">
-            <input type="password" id="generatedPassword" placeholder="Generated password will be here" readonly
+            <input type="password" id="password-output" placeholder="Generated password will be here" readonly
               autocomplete="off" onpaste="return false" oncopy="return false"
               aria-label="Generated password response" />
-            <button type="button" id="togglePasswordBtn" title="Toggle password visibility"
+            <button type="button" id="toggle-password" title="Toggle password visibility"
               aria-label="Toggle password visibility">👁️</button>
-            <button type="button" id="copyPasswordBtn" title="Copy password to clipboard"
+            <button type="button" id="copy-password" title="Copy password to clipboard"
               aria-label="Copy password to clipboard">
               📋
             </button>
@@ -95,7 +95,7 @@
         </div>
         <div class="form-actions">
           <button type="submit">Get Password</button>
-          <button type="button" id="clearFormBtn">Clear Form</button>
+          <button type="button" id="clear-form">Clear Form</button>
         </div>
       </div>
     </form>

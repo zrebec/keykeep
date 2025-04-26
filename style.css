@@ -108,7 +108,7 @@ button[type="submit"] {
     transition: background-color 0.2s;
 }
 
-#clearFormBtn {
+#clear-form {
     background-color: #ef4444;
     color: white;
     margin-left: 0.5rem;
@@ -130,14 +130,14 @@ button[type="submit"]:not(:disabled):hover {
     background-color: #1d4ed8;
 }
 
-#togglePasswordBtn {
+#toggle-password {
     width: 10%;
     background-color: #4b5563;
     border-radius: 8px;
     margin-right: 0.5rem;
 }
 
-#togglePasswordBtn:hover {
+#toggle-password:hover {
     background-color: #374151;
 }
 

@@ -58,9 +58,14 @@ document.getElementById('password-form').addEventListener('submit', async functi
 
     await yieldToUI(); // Yield to the UI to allow the form to update
 
-    let salt = `${domain.toLowerCase()}::${login.toLowerCase()}`;
+    // Declare the charset based on the selected options
+    let specials = '.,/*-';
+    const numbers = '0123456789';
 
-    if (variation == 2) {
+    let salt = `${domain.toLowerCase()}::${login.toLowerCase()}`;
+    if (variation == 0) {
+        specials = '.,';
+    } else if (variation == 2) {
         salt += `::${variation}`;
     }
 
@@ -72,10 +77,6 @@ document.getElementById('password-form').addEventListener('submit', async functi
 
     // Convert the key to a byte array
     const hashBytes = new Uint8Array(keyBytes.buffer); // Convert ArrayBuffer to Uint8Array
-
-    // Declare the charset based on the selected options
-    const specials = '.,/*-';
-    const numbers = '0123456789';
 
     // pattern for the password
     let passwordParts = [];

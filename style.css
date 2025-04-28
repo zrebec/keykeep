@@ -1,3 +1,57 @@
+/* 
+  KeyKeep Stylesheet - Fully customizable via :root variables
+  All sizes, colors, spacings and common transitions centralized
+*/
+
+:root {
+    /* Colors */
+    --color-primary-bg: #051134;
+    --color-secondary-bg: #202122;
+    --color-text: #e5e7eb;
+    --color-header-bg: #000000;
+    --color-header-text: #ffffff;
+    --color-subtext: #bbc0c8;
+    --color-input-bg: #e5e7eb;
+    --color-input-text: #1f2937;
+    --color-button-bg: #2563eb;
+    --color-button-hover-bg: #1d4ed8;
+    --color-danger-bg: #ef4444;
+    --color-disabled-bg: #d1d5db;
+    --color-disabled-text: #9ca3af;
+    --color-focus-shadow: rgba(96, 165, 250, 0.5);
+    --color-error: #ef4444;
+    --color-toggle-bg: #4b5563;
+    --color-toggle-hover-bg: #374151;
+
+    /* Spacings */
+    --space-xs: 0.25rem;
+    --space-s: 0.5rem;
+    --space-m: 0.75rem;
+    --space-l: 1rem;
+
+    /* Border radius */
+    --radius-small: 5px;
+    --radius-medium: 10px;
+
+    /* Font sizes */
+    --font-small: 0.9rem;
+    --font-medium: 1rem;
+    --font-large: 1.3rem;
+
+    /* Shadows */
+    --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    /* Form sizes */
+    --form-max-width: 500px;
+    --form-min-height: calc(100vh - 10rem);
+
+    /* Transition durations */
+    --transition-fast: 0.2s;
+    --transition-slow: 0.4s;
+}
+
+/* Basic reset */
 *,
 *:before,
 *:after {
@@ -6,63 +60,67 @@
     padding: 0;
 }
 
+/* Body styling */
 body {
-    background: linear-gradient(135deg, #1e3a8a 0%, #111827 100%);
-    color: #e5e7eb;
+    background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-secondary-bg) 100%);
+    color: var(--color-text);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: clamp(1rem, 2.5vw, 1.3rem);
     min-height: 100vh;
 }
 
+/* Header styling */
 header {
-    background-color: #ffffff;
-    color: #1f2937;
-    padding: 1rem;
+    background-color: var(--color-header-bg);
+    color: var(--color-header-text);
+    padding: var(--space-m);
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-medium);
     max-height: 8rem;
 }
 
 header h1 {
-    font-size: 1.5rem;
+    font-size: var(--font-large);
     text-transform: uppercase;
     font-weight: 800;
 }
 
 header p {
-    color: #4b5563;
-    font-size: 0.9rem;
+    color: var(--color-subtext);
+    font-size: var(--font-small);
 }
 
+/* Form container styling */
 .form-container {
     display: flex;
-    min-height: calc(100vh - 10rem);
-    max-width: 500px;
-    width: 100%;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: var(--form-max-width);
+    min-height: var(--form-min-height);
     margin: 0 auto;
-    padding: 1rem;
+    padding: var(--space-m);
 }
 
+/* Inputs, selects and buttons */
 input,
 select,
 button {
     width: 100%;
-    margin: 8px 0;
+    margin: var(--space-xs) 0;
     border: none;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    color: #1f2937;
-    background-color: #e5e7eb;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    font-size: var(--font-small);
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-small);
+    background-color: var(--color-input-bg);
+    color: var(--color-input-text);
+    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 label {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    color: #d1d5db;
+    font-size: var(--font-small);
+    margin-top: var(--space-xs);
+    color: var(--color-text);
     font-weight: 400;
 }
 
@@ -72,75 +130,61 @@ input {
 
 select {
     appearance: none;
-    -webkit-appearance: none;
     background-image: url("data:image/svg+xml;utf8,<svg fill='%231f2937' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
     background-repeat: no-repeat;
-    background-position: right 1rem center;
+    background-position: right var(--space-m) center;
     padding-right: 2.5rem;
 }
 
 button {
     min-width: 48px;
     min-height: 48px;
-    background-color: #2563eb;
+    background-color: var(--color-button-bg);
     color: white;
-    cursor: pointer;
     font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.1s ease, background-color 0.2s;
+    cursor: pointer;
+    box-shadow: var(--shadow-small);
+    transition: transform 0.1s ease, background-color var(--transition-fast);
 }
 
 input:focus,
 select:focus,
 button:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5);
-    background-color: #ffffff;
+    background-color: white;
+    box-shadow: 0 0 0 3px var(--color-focus-shadow);
 }
 
 button:hover {
     transform: translateY(-2px);
 }
 
-button[type="submit"] {
-    background-color: #2563eb;
-    color: white;
-    transition: background-color 0.2s;
-}
-
-#clear-form {
-    background-color: #ef4444;
-    color: white;
-    margin-left: 0.5rem;
-}
-
-.form-field__buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
 button[type="submit"]:disabled {
-    background-color: #d1d5db;
+    background-color: var(--color-disabled-bg);
     cursor: not-allowed;
 }
 
 button[type="submit"]:not(:disabled):hover {
-    background-color: #1d4ed8;
+    background-color: var(--color-button-hover-bg);
+}
+
+#clear-form {
+    background-color: var(--color-danger-bg);
+    margin-left: var(--space-xs);
 }
 
 #toggle-password {
     width: 10%;
-    background-color: #4b5563;
-    border-radius: 8px;
-    margin-right: 0.5rem;
+    background-color: var(--color-toggle-bg);
+    border-radius: var(--radius-medium);
+    margin-right: var(--space-xs);
 }
 
 #toggle-password:hover {
-    background-color: #374151;
+    background-color: var(--color-toggle-hover-bg);
 }
 
+/* Form field styling */
 .form-field {
     width: 100%;
     display: flex;
@@ -152,9 +196,42 @@ button[type="submit"]:not(:disabled):hover {
 .form-field select:disabled,
 .form-field button:disabled {
     background-color: yellow;
-    color: #9ca3af;
+    /* Optional customization */
+    color: var(--color-disabled-text);
 }
 
+.form-field span {
+    position: absolute;
+    font-size: 2rem;
+    top: 65%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: var(--color-error);
+}
+
+/* Clipboard field (input + button side by side) */
+.form-field__clipboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-field__clipboard input {
+    width: 90%;
+    margin-right: var(--space-xs);
+}
+
+.form-field__clipboard button {
+    width: 10%;
+    background-color: var(--color-toggle-bg);
+}
+
+.form-field__clipboard button:hover {
+    background-color: var(--color-toggle-hover-bg);
+}
+
+/* Actions row */
 .form-actions {
     width: 100%;
     display: flex;
@@ -164,45 +241,16 @@ button[type="submit"]:not(:disabled):hover {
     position: relative;
 }
 
-.form-field span {
-    position: absolute;
-    font-size: 2rem;
-    top: 65%;
-    right: 10px;
-    transform: translateY(-50%);
-    color: #ef4444;
-}
-
-.form-field__clipboard {
-    flex-direction: row;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.form-field__clipboard input {
-    width: 90%;
-    margin-right: 0.5rem;
-}
-
-.form-field__clipboard button {
-    width: 10%;
-    background-color: #4b5563;
-}
-
-.form-field__clipboard button:hover {
-    background-color: #374151;
-}
-
+/* Responsive tweaks */
 @media screen and (min-width: 600px) {
     .form-container {
-        padding: 1rem;
+        padding: var(--space-m);
     }
 
     input,
     select,
     button {
-        font-size: 1rem;
-        padding: 0.75rem 1rem;
+        font-size: var(--font-medium);
+        padding: var(--space-m) var(--space-l);
     }
 }

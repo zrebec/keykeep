@@ -1,5 +1,5 @@
 // define custom charsets
-import { deriveKeyPBKDF2, exportKey, generatePasswordOld, generatePassword } from './crypto.js';
+import { deriveKeyPBKDF2, exportKey, getSalt, generatePasswordOld, generatePassword } from './crypto.js';
 
 const charsetArr = ['bcdfghjklmnpqrstvwxz', 'aeiou'].map((set) => Array.from(set));
 const numberArr = Array.from('0123456789');
@@ -74,8 +74,7 @@ passwordForm.addEventListener('submit', async function (event) {
 
   await yieldToUI(); // Yield to the UI to allow the form to update
 
-  let salt = `${domain.toLowerCase()}::${login.toLowerCase()}`;
-  if (variation > 1) salt += `::${variation}`;
+  const salt = getSalt(domain, login, variation);
 
   const key = await deriveKeyPBKDF2(seed, salt, 10_000_000, 256);
   if (debug) console.log('Key derived...');

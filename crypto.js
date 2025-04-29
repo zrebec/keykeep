@@ -20,6 +20,12 @@ export async function deriveKeyPBKDF2(password, salt, iterations = 500000, keyLe
   return key;
 }
 
+export function getSalt(domain, login, variation) {
+  let salt = `${domain.toLowerCase()}::${login.toLowerCase()}`;
+  if (variation > 1) salt += `::${variation}`;
+  return salt;
+}
+
 export async function exportKey(key) {
   const rawKey = await crypto.subtle.exportKey('raw', key);
   const keyBytes = new Uint8Array(rawKey);
@@ -60,7 +66,7 @@ export async function generatePassword(hashBytes, length, charsetArr, numbersArr
   let currentLength = 0;
   let hashIndex = 3;
 
-  const configHash = await generateSHA256(`${domain.toLowerCase()}::${login.toLowerCase()}::${variation}`);
+  const configHash = await generateSHA256(getSalt(domain, login, variation));
   const numPosition = configHash[0] % length;
   const addSpecialChance = configHash[1] % 100 < 50;
 

@@ -8,7 +8,7 @@ export async function deriveKeyPBKDF2(password, salt, iterations = 500_000, keyL
   const key = await crypto.subtle.deriveKey(
     {
       name: 'PBKDF2',
-      salt: enc.encode(salt),
+      salt: salt,
       iterations: iterations,
       hash: 'SHA-256',
     },
@@ -21,9 +21,9 @@ export async function deriveKeyPBKDF2(password, salt, iterations = 500_000, keyL
 }
 
 export function getSalt(domain, login, variation) {
-  let salt = `${domain.toLowerCase()}::${login.toLowerCase()}`;
-  if (variation > 1) salt += `::${variation}`;
-  return salt;
+  let saltStr = `${domain.toLowerCase()}::${login.toLowerCase()}`;
+  if (variation > 1) saltStr += `::${variation}`;
+  return new TextEncoder().encode(saltStr); // Return the Unit8Array directly
 }
 
 export async function exportKey(key) {
@@ -116,9 +116,15 @@ function generateWord(hashBytes, startIndex, wordLength = 4, charsetArr) {
 }
 
 async function generateSHA256(input) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(input);
+  let data;
+  if (typeof input === 'string') {
+    const enc = new TextEncoder();
+    data = enc.encode(input);
+  } else if (input instanceof Uint8Array) {
+    data = input;
+  } else {
+    throw new Error('Input must be a string or Uint8Array');
+  }
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray;
+  return Array.from(new Uint8Array(hashBuffer));
 }

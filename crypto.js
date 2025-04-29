@@ -1,5 +1,5 @@
 // better deriveKey function using PBKDF2
-export async function deriveKeyPBKDF2(password, salt, iterations = 500000, keyLength = 256) {
+export async function deriveKeyPBKDF2(password, salt, iterations = 500_000, keyLength = 256) {
   const enc = new TextEncoder();
   const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, [
     'deriveBits',

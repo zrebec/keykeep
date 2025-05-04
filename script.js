@@ -62,9 +62,9 @@ passwordForm.addEventListener('submit', async function (event) {
   event.preventDefault(); // Prevent form submission
 
   // get the selected options
-  const seed = seedInputEl.value;
-  const domain = domainInputEl.value;
-  const login = usernameEl.value;
+  const seed = seedInputEl.value.trim();
+  const domain = domainInputEl.value.trim();
+  const login = usernameEl.value.trim();
   const variation = parseInt(passwordVariationEl.value);
   const length = parseInt(passwordLengthEl.value);
 

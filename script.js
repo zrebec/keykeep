@@ -1,5 +1,5 @@
 // define custom charsets
-import { deriveKeyPBKDF2, exportKey, getSalt, generatePasswordOld, generatePassword } from './crypto.js';
+import { deriveKeyPBKDF2, exportKey, getSalt, generatePassword } from './crypto.js';
 
 const charsetArr = ['bcdfghjklmnpqrstvwxz', 'aeiou'].map((set) => Array.from(set));
 const numberArr = Array.from('0123456789');
@@ -83,24 +83,17 @@ passwordForm.addEventListener('submit', async function (event) {
   const keyBytes = await exportKey(key);
   const hashBytes = new Uint8Array(keyBytes.buffer);
 
-  if (variation === 0) {
-    passwordOutputEl.value = await generatePasswordOld(hashBytes, length, charsetArr, numberArr, specialsArr[0]);
-  } else if (variation === 1) {
-    passwordOutputEl.value = await generatePasswordOld(hashBytes, length, charsetArr, numberArr, specialsArr.flat());
-  } else if (variation === 10) {
-    passwordOutputEl.value = await generatePassword(hashBytes, length, charsetArr, numberArr, emojiArr, domain, login);
-  } else {
-    passwordOutputEl.value = await generatePassword(
-      hashBytes,
-      length,
-      charsetArr,
-      numberArr,
-      specialsArr.flat(),
-      domain,
-      login,
-      variation,
-    );
-  }
+  passwordOutputEl.value = await generatePassword(
+    hashBytes,
+    length,
+    charsetArr,
+    numberArr,
+    variation === 0 ? specialsArr[0] : variation === 10 ? emojiArr : specialsArr.flat(),
+    domain,
+    login,
+    variation,
+  );
+
   copyPasswordBtn.focus();
 });
 

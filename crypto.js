@@ -32,35 +32,6 @@ export async function exportKey(key) {
   return keyBytes;
 }
 
-export async function generatePasswordOld(hashBytes, length, charsetArr, numbersArr, specialsArr) {
-  let passwordParts = [];
-  let currentLength = 0;
-  let hashIndex = 3;
-
-  while (currentLength < length - 2) {
-    const dynamicLength = 3 + (hashBytes[hashIndex] % 3); // 3–5 znakov
-    const word = generateWord(hashBytes, hashIndex, dynamicLength, charsetArr);
-    passwordParts.push(word);
-    currentLength += Array.from(word).length;
-    hashIndex += dynamicLength;
-
-    if (hashIndex < hashBytes.length) {
-      const special = specialsArr[hashBytes[hashIndex++] % specialsArr.length];
-      passwordParts.push(special);
-      currentLength += 1;
-    }
-  }
-
-  let password = passwordParts.join('');
-  const passwordArray = Array.from(password);
-  password = passwordArray.slice(0, length - 2).join('');
-
-  const number1 = numbersArr[hashBytes[1] % numbersArr.length];
-  const number2 = numbersArr[hashBytes[2] % numbersArr.length];
-  password += `${number1}${number2}`;
-  return password;
-}
-
 export async function generatePassword(hashBytes, length, charsetArr, numbersArr, specialsArr, domain, login, variation = 1) {
   let passwordParts = [];
   let currentLength = 0;
@@ -68,7 +39,6 @@ export async function generatePassword(hashBytes, length, charsetArr, numbersArr
 
   const configHash = await generateSHA256(getSalt(domain, login, variation));
   const numPosition = configHash[0] % length;
-  const addSpecialChance = true;
 
   while (currentLength < length - 2) {
     const dynamicLength = 3 + (hashBytes[hashIndex] % 5); // 3–7 znakov
@@ -77,7 +47,7 @@ export async function generatePassword(hashBytes, length, charsetArr, numbersArr
     currentLength += Array.from(word).length;
     hashIndex += dynamicLength;
 
-    if (currentLength < length - 2 && addSpecialChance && hashIndex < hashBytes.length) {
+    if (currentLength < length - 2 && hashIndex < hashBytes.length) {
       const special = specialsArr[hashBytes[hashIndex++] % specialsArr.length];
       passwordParts.push(special);
       currentLength += 1;

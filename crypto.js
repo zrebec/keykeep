@@ -68,7 +68,7 @@ export async function generatePassword(hashBytes, length, charsetArr, numbersArr
 
   const configHash = await generateSHA256(getSalt(domain, login, variation));
   const numPosition = configHash[0] % length;
-  const addSpecialChance = configHash[1] % 100 < 50;
+  const addSpecialChance = true;
 
   while (currentLength < length - 2) {
     const dynamicLength = 3 + (hashBytes[hashIndex] % 5); // 3–7 znakov
